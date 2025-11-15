@@ -2,18 +2,25 @@ pipeline {
     agent any
 
     tools {
-        nodejs "node18"   // Make sure you configured this in Jenkins
+        nodejs "node22"
     }
 
     stages {
 
-        stage('Install Backend') {
+        stage('Check Node Version') {
+            steps {
+                bat 'node -v'
+                bat 'npm -v'
+            }
+        }
+
+        stage('Install Backend Dependencies') {
             steps {
                 bat 'cd backend && npm install'
             }
         }
 
-        stage('Install Frontend') {
+        stage('Install Frontend Dependencies') {
             steps {
                 bat 'cd frontend && npm install'
             }
@@ -31,7 +38,7 @@ pipeline {
             }
         }
 
-        stage('Docker Run Test') {
+        stage('Docker Run') {
             steps {
                 bat 'docker compose up -d'
                 bat 'docker ps'
