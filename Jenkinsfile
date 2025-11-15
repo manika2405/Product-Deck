@@ -56,14 +56,22 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonar-local') {
-                    withEnv(["JAVA_HOME=${tool 'jdk17'}", "PATH+JDK=${tool 'jdk17'}\\bin"]) {
-                        bat "\"${tool 'sonar-scanner'}\\bin\\sonar-scanner.bat\" -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.projectName=${SONAR_PROJECT_NAME} -Dsonar.projectVersion=${SONAR_PROJECT_VERSION} -Dsonar.sources=./backend,./frontend"
-                    }
-                }
+    steps {
+        withSonarQubeEnv('sonar-local') {
+            withEnv([
+                "JAVA_HOME=${tool 'jdk17'}",
+                "PATH+JDK=${tool 'jdk17'}\\bin"
+            ]) {
+                bat "\"${tool 'sonar-scanner'}\\bin\\sonar-scanner.bat\" ^
+                    -Dsonar.projectKey=product-deck ^
+                    -Dsonar.projectName=\"Product Deck\" ^
+                    -Dsonar.projectVersion=1.0 ^
+                    -Dsonar.sources=./backend,./frontend ^
+                    -Dsonar.sourceEncoding=UTF-8"
             }
         }
+    }
+}
 
         stage('Run Selenium Tests') {
             steps {
