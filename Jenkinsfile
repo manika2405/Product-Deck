@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         nodejs "node22"
-        sonarScanner "sonar-scanner"
     }
 
     stages {
