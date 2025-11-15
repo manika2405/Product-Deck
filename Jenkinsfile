@@ -1,35 +1,40 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs "node18"   // Make sure you configured this in Jenkins
+    }
+
     stages {
+
         stage('Install Backend') {
             steps {
-                sh 'cd backend && npm install'
+                bat 'cd backend && npm install'
             }
         }
 
         stage('Install Frontend') {
             steps {
-                sh 'cd frontend && npm install'
+                bat 'cd frontend && npm install'
             }
         }
 
         stage('Build Frontend') {
             steps {
-                sh 'cd frontend && npm run build'
+                bat 'cd frontend && npm run build'
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'docker compose build'
+                bat 'docker compose build'
             }
         }
 
         stage('Docker Run Test') {
             steps {
-                sh 'docker compose up -d'
-                sh 'docker ps'
+                bat 'docker compose up -d'
+                bat 'docker ps'
             }
         }
     }
