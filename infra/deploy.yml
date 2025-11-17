@@ -1,0 +1,30 @@
+---
+- name: Deploy Product Deck
+  hosts: webservers
+  become: yes
+
+  tasks:
+
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Stop backend container
+      shell: docker stop backend || true
+
+    - name: Remove backend container
+      shell: docker rm backend || true
+
+    - name: Stop frontend container
+      shell: docker stop frontend || true
+
+    - name: Remove frontend container
+      shell: docker rm frontend || true
+
+    - name: Start backend container
+      shell: docker run -d --name backend -p 8000:8000 product-deck-backend
+
+    - name: Start frontend container
+      shell: docker run -d --name frontend -p 5173:5173 product-deck-frontend

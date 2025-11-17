@@ -84,6 +84,15 @@ pipeline {
                 '''
             }
         }
+
+        stage('Deploy with Ansible') {
+    steps {
+        bat '''
+            wsl ansible-playbook infra/deploy.yml -i infra/inventory
+        '''
+    }
+}
+
     }
 
     post {
