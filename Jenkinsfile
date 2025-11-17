@@ -4,12 +4,14 @@ pipeline {
     tools {
         nodejs 'node22'
         jdk 'jdk17'
-        // DO NOT ADD sonarScanner HERE (not required)
+        // sonar-scanner MUST be defined in Manage Jenkins > Tools
+        // Name: sonar-scanner
+        sonarScanner 'sonar-scanner'
     }
 
     environment {
         SONAR_PROJECT_KEY = "product-deck"
-        SONAR_PROJECT_NAME = "Product Deck"
+        SONAR_PROJECT_NAME = "\"Product Deck\""   // Quotes required due to space
         SONAR_PROJECT_VERSION = "1.0"
     }
 
@@ -59,9 +61,14 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar-local') {
                     script {
-                        // name must match Jenkins > Tools > SonarQube Scanner name
-                        def scannerHome = tool 'sonar-scanner'
-                        bat "\"${scannerHome}\\bin\\sonar-scanner.bat\" -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.projectName=${SONAR_PROJECT_NAME} -Dsonar.projectVersion=${SONAR_PROJECT_VERSION} -Dsonar.sources=backend,frontend -Dsonar.sourceEncoding=UTF-8"
+                        def scanner = tool 'sonar-scanner'
+                        bat "\"${scanner}\\bin\\sonar-scanner.bat\" ^
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} ^
+                            -Dsonar.projectName=${SONAR_PROJECT_NAME} ^
+                            -Dsonar.projectVersion=${SONAR_PROJECT_VERSION} ^
+                            -Dsonar.sources=backend,frontend ^
+                            -Dsonar.sourceEncoding=UTF-8 ^
+                            -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**,**/*.test.js,**/*.spec.js"
                     }
                 }
             }
@@ -71,6 +78,7 @@ pipeline {
             steps {
                 bat '''
                     cd selenium-tests
+                    npm install
                     npm test
                 '''
             }
@@ -95,14 +103,6 @@ pipeline {
 
                     docker run -d --name backend -p 8000:8000 product-deck-backend
                     docker run -d --name frontend -p 5173:5173 product-deck-frontend
-                '''
-            }
-        }
-
-        stage('Deploy with Ansible') {
-            steps {
-                bat '''
-                    wsl ansible-playbook infra/deploy.yml -i infra/inventory
                 '''
             }
         }
