@@ -1,13 +1,18 @@
 {
-  "name": "selenium-tests",
+  "name": "product-deck-selenium-tests",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Selenium tests for Product Deck",
+  "main": "index.js",
   "scripts": {
-    "test": "mocha *.test.js --timeout 60000"
+    "test": "mocha test/*.test.js --timeout 30000 --exit"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "selenium-webdriver": "^4.18.1",
+    "selenium-webdriver": "^4.15.0",
+    "chromedriver": "^119.0.1",
     "mocha": "^10.2.0",
-    "chai": "^4.3.7"
+    "chai": "^4.3.10"
   }
 }
