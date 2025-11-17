@@ -80,7 +80,8 @@ pipeline {
                 bat '''
                     cd selenium_tests
                     npm install
-                    npx mocha home.test.js --timeout 30000
+                    npm test
+                    
                 '''
             }
         }
