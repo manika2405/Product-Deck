@@ -85,13 +85,14 @@ pipeline {
             }
         }
 
-        stage('Deploy with Ansible') {
+       stage('Deploy with Ansible') {
     steps {
         bat '''
-            wsl ansible-playbook infra/deploy.yml -i infra/inventory
+            wsl ansible-playbook /home/manika/ansible/infra/deploy.yml -i /home/manika/ansible/infra/inventory
         '''
     }
 }
+
 
     }
 
