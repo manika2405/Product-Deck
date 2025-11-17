@@ -4,7 +4,8 @@
   "description": "Selenium tests for Product Deck",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*.test.js --timeout 30000 --exit"
+    "test": "mocha *.test.js --timeout 30000 --exit"
+
   },
   "keywords": [],
   "author": "",
