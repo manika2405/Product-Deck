@@ -2,10 +2,10 @@
   "name": "product-deck-selenium-tests",
   "version": "1.0.0",
   "description": "Selenium tests for Product Deck",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "mocha *.test.js --timeout 30000 --exit"
-
   },
   "keywords": [],
   "author": "",
