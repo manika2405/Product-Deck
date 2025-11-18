@@ -1,6 +1,5 @@
 import { Builder, By, until } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome";
-import assert from "assert";
 
 describe("Home Page Test", function () {
   this.timeout(60000);
