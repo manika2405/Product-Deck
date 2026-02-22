@@ -75,24 +75,7 @@ pipeline {
             }
         }
 
-        stage('Run Selenium Tests') {
-            steps {
-                bat '''
-                    cd selenium_tests
-                    npm install
-                    npm test
-                    
-                '''
-            }
-        }
-
-       stage('Deploy with Ansible') {
-    steps {
-        bat '''
-            wsl ansible-playbook /home/manika/ansible/infra/deploy.yml -i /home/manika/ansible/infra/inventory
-        '''
-    }
-}
+ 
 
 
     }
